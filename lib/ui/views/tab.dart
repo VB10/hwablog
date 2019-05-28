@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hwablog/ui/widgets/tabbar.dart';
 import 'package:hwablog/ui/widgets/tabbar_header.dart';
 
-import 'login.dart';
+import 'login_view.dart';
 
 class TabView extends StatefulWidget {
   const TabView({Key key}) : super(key: key);
@@ -17,7 +17,6 @@ class _TabViewState extends State<TabView> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
 
     _headerTabWidget = new List<HeaderTabWidget>();
