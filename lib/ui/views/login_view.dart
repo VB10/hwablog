@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:hwablog/core/enum/viewstate.dart';
-import 'package:hwablog/core/model/user.dart';
+import 'package:hwablog/core/model/login/login_request.dart';
 import 'package:hwablog/core/viewmodels/login_model.dart';
 import 'package:hwablog/ui/shared/text_styles.dart';
 import 'package:hwablog/ui/shared/ui_helpers.dart';
+import 'package:hwablog/ui/shared/validator_helpers.dart';
 
+import '../../locator.dart';
 import 'baseview.dart';
 
 class LoginView extends StatefulWidget {
@@ -14,9 +16,12 @@ class LoginView extends StatefulWidget {
 
 class _LoginViewState extends State<LoginView> {
   @override
+  @override
   Widget build(BuildContext context) {
+    LoginModel.init(context);
     return BaseView<LoginModel>(
       builder: (context, model, child) => Form(
+            key: model.formKey,
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Column(
@@ -24,6 +29,7 @@ class _LoginViewState extends State<LoginView> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   TextFormField(
+                    controller: model.userEmail,
                     decoration: InputDecoration(
                       helperText: "Write mail adress.",
                       hintText: "hwa@gmail.com",
@@ -32,6 +38,7 @@ class _LoginViewState extends State<LoginView> {
                   ),
                   TextFormField(
                     obscureText: true,
+                    validator: ValidatorHelper.passwordValidator,
                     decoration: InputDecoration(
                         helperText: "Write mail password.",
                         hintText: "*****",
@@ -46,25 +53,20 @@ class _LoginViewState extends State<LoginView> {
                         ),
                       ),
                       UIHelper.horizontalSpaceSmall(),
-                      model.state == ViewState.Busy
-                          ? CircularProgressIndicator()
-                          : Expanded(
-                              child: RaisedButton(
-                                color: Colors.blue,
-                                child: Text(
+                      Expanded(
+                        child: RaisedButton(
+                          color: Colors.blue,
+                          child: model.state == ViewState.Idle
+                              ? Text(
                                   "Login",
                                   style: loginButtonStyle,
-                                ),
-                                onPressed: () async {
-                                  var user = User(
-                                      email: "veli@veli.com",
-                                      password: "123456");
-                                  var loginSuccess = await model.login(user);
-
-                                  print(loginSuccess);
-                                },
-                              ),
-                            ),
+                                )
+                              : CircularProgressIndicator(),
+                          onPressed: () async {
+                            model.login();
+                          },
+                        ),
+                      ),
                     ],
                   ),
                 ],
