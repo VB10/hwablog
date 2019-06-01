@@ -1,4 +1,4 @@
-enum RouteState { HOME, LOGIN, REGISTER, NONE, TAB }
+enum RouteState { HOME, LOGIN, REGISTER, NONE, TAB, TEMP }
 
 class EnumConverter {
   static String stringFromEnum(RouteState state) {
@@ -25,9 +25,10 @@ class EnumConverter {
       case "/register":
         return RouteState.REGISTER;
       case "/tab":
-      case "/":
         //initial page
         return RouteState.TAB;
+      case "/":
+        return RouteState.TEMP;
       default:
         return RouteState.NONE;
     }

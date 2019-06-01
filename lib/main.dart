@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hwablog/ui/locator.dart';
-import 'package:hwablog/ui/views/tab.dart';
+import 'package:hwablog/ui/router.dart';
 
 import 'locator.dart';
 

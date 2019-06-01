@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hwablog/core/enum/route.dart';
-import 'package:hwablog/ui/views/register_view.dart';
-import 'package:hwablog/ui/views/tab.dart';
+import 'package:hwablog/ui/views/authenticate/register_view.dart';
+import 'package:hwablog/ui/views/authenticate/tab.dart';
+import 'package:hwablog/ui/views/contents/feed_view.dart';
 
 class Router {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -20,7 +21,8 @@ class Router {
       case RouteState.REGISTER:
         return MaterialPageRoute(builder: (_) => RegisterView());
       default:
-        return MaterialPageRoute(builder: (_) => TabView());
+      // default page
+        return MaterialPageRoute(builder: (_) => FeedView());
     }
   }
 }

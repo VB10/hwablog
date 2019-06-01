@@ -37,26 +37,16 @@ class Api {
         .post('$_END_POINT/verifyPassword?key=${ApiHelper.API_KEY}',
             body: login.toJson())
         .then((val) {
+      final body = json.decode(val.body);
       switch (val.statusCode) {
         case 200:
-          final body = json.decode(val.body);
           _completer.complete(LoginResponse.fromJson(body));
           return;
         case 400:
-          final body = json.decode(val.body);
           _completer.completeError(ErrorFirebaseModel.fromJson(body));
           return;
       }
     });
-
-    //     .then((val) {
-    //   final body = json.decode(val.body);
-    //   _completer.complete(LoginResponse.fromJson(body));
-    // }).catchError((error) {
-    //   final body = json.decode(error.body);
-    //   _completer.completeError(ErrorFirebaseModel.fromJson(body));
-    // });
-
     return _completer.future;
   }
 }

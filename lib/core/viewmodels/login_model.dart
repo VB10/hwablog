@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:hwablog/core/enum/route.dart';
 import 'package:hwablog/core/enum/viewstate.dart';
-import 'package:hwablog/core/model/error_firebase.dart';
 import 'package:hwablog/core/model/login/login_request.dart';
 import 'package:hwablog/core/model/login/login_response.dart';
 import 'package:hwablog/core/services/api.dart';
@@ -27,11 +26,11 @@ class LoginModel extends BaseModel {
   }
   final formKey = GlobalKey<FormState>();
 
-  Future login() async {
+  void login() {
     if (formKey.currentState.validate()) {
+      setState(ViewState.Busy);
       var _user =
           LoginRequest(email: userEmail.text, password: userPassword.text);
-      setState(ViewState.Busy);
       _api.signin(_user).then(onSuccess).catchError(onError);
     } else
       return;
