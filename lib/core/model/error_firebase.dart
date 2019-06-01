@@ -3,7 +3,7 @@ part 'error_firebase.g.dart';
 
 @JsonSerializable()
 class ErrorFirebaseModel {
-  List<ErrorModelChild> error;
+  _ErrorModelChild error;
 
   ErrorFirebaseModel({this.error});
   factory ErrorFirebaseModel.fromJson(Map<String, dynamic> json) =>
@@ -12,11 +12,27 @@ class ErrorFirebaseModel {
 }
 
 @JsonSerializable()
-class ErrorModelChild {
-  String code;
+class _ErrorModelChild {
+  int code;
   String message;
+  List<_ErrorsModelChild> errors;
 
-  ErrorModelChild({this.code, this.message});
-    factory ErrorModelChild.fromJson(Map<String, dynamic> json) =>
-      _$ErrorModelChildFromJson(json);
+  _ErrorModelChild({
+    this.code,
+    this.message,
+    this.errors
+  });
+  factory _ErrorModelChild.fromJson(Map<String, dynamic> json) =>
+      _$_ErrorModelChildFromJson(json);
+}
+
+@JsonSerializable()
+class _ErrorsModelChild {
+  String message;
+  String domain;
+  String reason;
+
+  _ErrorsModelChild({this.message, this.domain, this.reason});
+  factory _ErrorsModelChild.fromJson(Map<String, dynamic> json) =>
+      _$_ErrorsModelChildFromJson(json);
 }

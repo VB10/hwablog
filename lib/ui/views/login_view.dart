@@ -30,6 +30,7 @@ class _LoginViewState extends State<LoginView> {
                 children: <Widget>[
                   TextFormField(
                     controller: model.userEmail,
+                    validator: ValidatorHelper.emailValidator,
                     decoration: InputDecoration(
                       helperText: "Write mail adress.",
                       hintText: "hwa@gmail.com",
@@ -38,6 +39,7 @@ class _LoginViewState extends State<LoginView> {
                   ),
                   TextFormField(
                     obscureText: true,
+                    controller: model.userPassword,
                     validator: ValidatorHelper.passwordValidator,
                     decoration: InputDecoration(
                         helperText: "Write mail password.",
@@ -62,9 +64,7 @@ class _LoginViewState extends State<LoginView> {
                                   style: loginButtonStyle,
                                 )
                               : CircularProgressIndicator(),
-                          onPressed: () async {
-                            model.login();
-                          },
+                          onPressed: model.login,
                         ),
                       ),
                     ],
