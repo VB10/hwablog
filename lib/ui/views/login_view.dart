@@ -16,9 +16,13 @@ class LoginView extends StatefulWidget {
 
 class _LoginViewState extends State<LoginView> {
   @override
+  void initState() {
+    LoginModel.init(context);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    LoginModel.init(context);
     return BaseView<LoginModel>(
       builder: (context, model, child) => Form(
             key: model.formKey,
@@ -28,6 +32,10 @@ class _LoginViewState extends State<LoginView> {
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
+                  Placeholder(
+                    fallbackHeight: 150,
+                    color: Colors.green,
+                  ),
                   TextFormField(
                     controller: model.userEmail,
                     validator: ValidatorHelper.emailValidator,

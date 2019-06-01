@@ -17,13 +17,10 @@ class TabbarWidget extends StatelessWidget {
     return DefaultTabController(
       length: this.header.length,
       child: Scaffold(
-        appBar: PreferredSize(
-          preferredSize: Size.fromHeight(200.0),
-          child: AppBar(
-            flexibleSpace: image,
-            bottom: TabBar(
-              tabs: this.header,
-            ),
+        appBar: AppBar(
+          flexibleSpace: image,
+          bottom: TabBar(
+            tabs: this.header,
           ),
         ),
         body: TabBarView(

@@ -12,33 +12,28 @@ class TabView extends StatefulWidget {
 }
 
 class _TabViewState extends State<TabView> {
-  List<HeaderTabWidget> _headerTabWidget;
-  List<Widget> _children;
-
-  @override
-  void initState() {
-    super.initState();
-
-    _headerTabWidget = new List<HeaderTabWidget>();
-    _children = new List<Widget>();
-
-    _headerTabWidget.add(HeaderTabWidget(
-      color: Colors.transparent,
-      title: "Login",
-    ));
-    _headerTabWidget.add(HeaderTabWidget(
-      color: Colors.transparent,
-      title: "Signup",
-    ));
-    _children.add(LoginView());
-    _children.add(Container(color: Colors.blue));
-  }
-
   @override
   Widget build(BuildContext context) {
     return TabbarWidget(
-      header: _headerTabWidget,
-      body: _children,
+      header: <Widget>[
+        HeaderTabWidget(
+          color: Colors.transparent,
+          title: "Login",
+        ),
+        HeaderTabWidget(
+          color: Colors.transparent,
+          title: "Signup",
+        )
+      ],
+      body: <Widget>[
+        Center(
+          child: SingleChildScrollView(
+            reverse: true,
+            child: LoginView(),
+          ),
+        ),
+        Container(color: Colors.blue)
+      ],
       image: Image.network(
         "https://img.purch.com/w/660/aHR0cDovL3d3dy5saXZlc2NpZW5jZS5jb20vaW1hZ2VzL2kvMDAwLzA5Ny85NTcvb3JpZ2luYWwvc3BhY2UuanBn",
         fit: BoxFit.cover,

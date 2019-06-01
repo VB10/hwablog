@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:hwablog/core/enum/route.dart';
+import 'package:hwablog/core/enum/viewstate.dart';
 import 'package:hwablog/core/model/error_firebase.dart';
 import 'package:hwablog/core/model/login/login_request.dart';
 import 'package:hwablog/core/model/login/login_response.dart';
@@ -14,8 +15,7 @@ class LoginModel extends BaseModel {
 
   TextEditingController userEmail;
   TextEditingController userPassword;
-  String email_error;
-  String password_error;
+
   BuildContext context;
 
   LoginModel.init(BuildContext context) {
@@ -31,29 +31,30 @@ class LoginModel extends BaseModel {
     if (formKey.currentState.validate()) {
       var _user =
           LoginRequest(email: userEmail.text, password: userPassword.text);
-
-      _api.signin(_user).then((val) {
-        // Sucess
-        var model = val as LoginResponse;
-        Scaffold.of(context).showSnackBar(SnackBar(content: Text(model.email)));
-        print(val);
-      }).catchError((error) {
-        // Error
-        var errorModel = error as ErrorFirebaseModel;
-        print(errorModel.error.code);
-        Scaffold.of(context)
-            .showSnackBar(SnackBar(content: Text(errorModel.error.message)));
-      });
-
-      // var response = await _api.signinUser(_user);
-      // if (response != null) {
-      //   Navigator.of(context)
-      //       .pushNamed(EnumConverter.stringFromEnum(RouteState.REGISTER));
-      // } else {
-      //   Scaffold.of(context)
-      //       .showSnackBar(SnackBar(content: Text(userEmail.text)));
-      // }
+      setState(ViewState.Busy);
+      _api.signin(_user).then(onSuccess).catchError(onError);
     } else
       return;
+  }
+
+  void onSuccess(dynamic response) {
+    var model = response as LoginResponse;
+    Scaffold.of(context).showSnackBar(SnackBar(content: Text(model.email)));
+    Navigator.of(context)
+        .pushNamed(EnumConverter.stringFromEnum(RouteState.REGISTER));
+    print(model);
+    setState(ViewState.Idle);
+  }
+
+  void onError(dynamic response) {
+    var model = response as LoginResponse;
+    Navigator.of(context)
+        .pushNamed(EnumConverter.stringFromEnum(RouteState.REGISTER));
+    setState(ViewState.Idle);
+  }
+
+  @override
+  void dispose() {
+    this.removeListener(() => this);
   }
 }
