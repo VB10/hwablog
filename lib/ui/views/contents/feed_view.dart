@@ -20,6 +20,11 @@ class _FeedViewState extends State<FeedView> {
       },
       builder: (context, model, child) {
         return Scaffold(
+          floatingActionButton: FloatingActionButton(
+            onPressed: () {},
+            child: Icon(Icons.add),
+          ),
+          floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
           body: SliverCustomListWidget(
             spaceBar: FlexibleSpaceBar(
               centerTitle: false,
@@ -44,14 +49,40 @@ class _FeedViewState extends State<FeedView> {
                         // To convert this infinite list to a list with three items,
                         // uncomment the following line:
                         // if (index > 3) return null;
-                        return Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Container(
-                            color: Colors.red,
-                            height: 150.0,
-                            child: Text(model.shopList[index].item),
-                          ),
-                        );
+                        return Card(
+                            elevation: 10,
+                            margin: EdgeInsets.all(8),
+                            child: Column(
+                              children: <Widget>[
+                                Image.network(
+                                  "https://picsum.photos/200",
+                                  loadingBuilder: (BuildContext context,
+                                      Widget child,
+                                      ImageChunkEvent loadingProgress) {
+                                    if (loadingProgress == null) {
+                                      return child;
+                                    }
+                                    return CircularProgressIndicator();
+                                  },
+                                ),
+                                ListTile(
+                                  title: Text(model.shopList[index].item),
+                                  subtitle: Text(model.shopList[index].price),
+                                  trailing: IconButton(
+                                    icon: Icon(
+                                      Icons.shopping_cart,
+                                      color: Colors.green,
+                                    ),
+                                    onPressed: () {
+                                      Scaffold.of(context)
+                                          .showSnackBar(SnackBar(
+                                        content: Text("Sepete eklendi."),
+                                      ));
+                                    },
+                                  ),
+                                ),
+                              ],
+                            ));
                       },
                       // Or, uncomment the following line:
                       childCount: model.shopList.length,

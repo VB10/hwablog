@@ -7,10 +7,10 @@ part of 'feed_model.dart';
 // **************************************************************************
 
 ShoppingModel _$ShoppingModelFromJson(Map<String, dynamic> json) {
-  return ShoppingModel()
-    ..company = json['company'] as String
-    ..item = json['item'] as String
-    ..price = json['price'] as String;
+  return ShoppingModel(
+      company: json['company'] as String,
+      item: json['item'] as String,
+      price: json['price'] as String);
 }
 
 Map<String, dynamic> _$ShoppingModelToJson(ShoppingModel instance) =>
