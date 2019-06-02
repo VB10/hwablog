@@ -1,4 +1,5 @@
 import 'package:get_it/get_it.dart';
+import 'package:hwablog/core/services/feed_api.dart';
 import 'package:hwablog/core/viewmodels/feed_model.dart';
 
 import 'core/services/api.dart';
@@ -8,6 +9,7 @@ GetIt locator = GetIt();
 
 void setupLocator() {
   locator.registerSingleton(Api());
+  locator.registerSingleton(FeedApi());
   locator.registerFactory(() => LoginModel());
   locator.registerFactory(() => FeedModel());
 }

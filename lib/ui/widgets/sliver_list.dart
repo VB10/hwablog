@@ -11,19 +11,15 @@ class SliverCustomListWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return NestedScrollView(
-      headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-        return <Widget>[
-          SliverAppBar(
-            expandedHeight: height ?? 200.0,
-            backgroundColor: Colors.black87,
-            floating: false,
-            pinned: true,
-            flexibleSpace: this.spaceBar,
-          ),
-        ];
-      },
-      body: child,
+    return CustomScrollView(
+      slivers: <Widget>[
+        SliverAppBar(
+          expandedHeight: height ?? 200.0,
+          backgroundColor: Colors.black87,
+          flexibleSpace: this.spaceBar,
+        ),
+        child
+      ],
     );
   }
 }
