@@ -3,6 +3,8 @@ part 'feed_model.g.dart';
 
 @JsonSerializable()
 class ShoppingModel {
+  @JsonKey(ignore: true)
+  String key;
   String company;
   String item;
   String price;

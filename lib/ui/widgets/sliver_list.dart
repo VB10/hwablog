@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 
 class SliverCustomListWidget extends StatelessWidget {
   SliverCustomListWidget(
-      {Key key, this.height, @required this.child, @required this.spaceBar})
+      {Key key, this.height, @required this.children, @required this.spaceBar})
       : super(key: key);
 
-  final Widget child;
+  final List<Widget> children;
   final FlexibleSpaceBar spaceBar;
   final double height;
 
@@ -18,7 +18,7 @@ class SliverCustomListWidget extends StatelessWidget {
           backgroundColor: Colors.black87,
           flexibleSpace: this.spaceBar,
         ),
-        child
+        ...children
       ],
     );
   }

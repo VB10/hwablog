@@ -7,6 +7,7 @@ import 'package:hwablog/core/model/login/login_request.dart';
 import 'package:hwablog/core/model/login/login_response.dart';
 import 'package:hwablog/core/services/api.dart';
 import 'package:hwablog/core/viewmodels/base_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../locator.dart';
 
 class LoginModel extends BaseModel {
@@ -17,9 +18,6 @@ class LoginModel extends BaseModel {
 
   BuildContext context;
 
-  LoginModel.init(BuildContext context) {
-    locator<LoginModel>().context = context;
-  }
   LoginModel() {
     userEmail = new TextEditingController();
     userPassword = new TextEditingController();
@@ -29,18 +27,23 @@ class LoginModel extends BaseModel {
   void login() {
     if (formKey.currentState.validate()) {
       setState(ViewState.Busy);
-      var _user =
-          LoginRequest(email: userEmail.text, password: userPassword.text);
-      _api.signin(_user).then(onSuccess).catchError(onError);
+      var _user = LoginRequest(
+          email: userEmail.text.trim(),
+          password: userPassword.text.trim(),
+          returnSecureToken: true.toString());
+      _api.signin_user(_user).then(onSuccess).catchError(onError);
     } else
       return;
   }
 
-  void onSuccess(dynamic response) {
+  Future onSuccess(dynamic response) async {
     var model = response as LoginResponse;
-    Scaffold.of(context).showSnackBar(SnackBar(content: Text(model.email)));
+    Scaffold.of(context)
+        .showSnackBar(SnackBar(content: Text("Welcome ${model.email}")));
+    saveUserState(model);
+
     Navigator.of(context)
-        .pushNamed(EnumConverter.stringFromEnum(RouteState.REGISTER));
+        .pushNamed(EnumConverter.stringFromEnum(RouteState.HOME));
     print(model);
     setState(ViewState.Idle);
   }
@@ -55,5 +58,14 @@ class LoginModel extends BaseModel {
   @override
   void dispose() {
     this.removeListener(() => this);
+  }
+
+  saveUserState(LoginResponse model) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.reload();
+    
+    prefs.setString(UserLocalState.TOKEN_ID.toString(), model.id_token);
+    prefs.setString(
+        UserLocalState.TOKEN_REFRESH.toString(), model.refreshToken);
   }
 }

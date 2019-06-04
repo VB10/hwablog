@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hwablog/core/enum/route.dart';
 import 'package:hwablog/ui/views/authenticate/register_view.dart';
+import 'package:hwablog/ui/views/authenticate/splash_view.dart';
 import 'package:hwablog/ui/views/authenticate/tab.dart';
 import 'package:hwablog/ui/views/contents/feed_view.dart';
 
@@ -18,11 +19,13 @@ class Router {
         return MaterialPageRoute(builder: (_) => TabView());
       case RouteState.NONE:
         return _nonePageRoute;
+      case RouteState.HOME:
+        return MaterialPageRoute(builder: (_) => FeedView());
       case RouteState.REGISTER:
         return MaterialPageRoute(builder: (_) => RegisterView());
       default:
-      // default page
-        return MaterialPageRoute(builder: (_) => FeedView());
+        // default page
+        return MaterialPageRoute(builder: (_) => SplashView());
     }
   }
 }

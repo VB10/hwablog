@@ -14,14 +14,11 @@ class LoginView extends StatefulWidget {
 
 class _LoginViewState extends State<LoginView> {
   @override
-  void initState() {
-    LoginModel.init(context);
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return BaseView<LoginModel>(
+      onModelReady: (model) {
+        model.context = context;
+      },
       builder: (context, model, child) => Form(
             key: model.formKey,
             child: Padding(

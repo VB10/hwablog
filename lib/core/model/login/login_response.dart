@@ -7,15 +7,13 @@ class LoginResponse {
   String kind;
   String localId;
   String email;
-  String idToken;
-  int expiresIn;
+  String id_token;
   String refreshToken;
   LoginResponse(
       {this.kind,
       this.localId,
       this.email,
-      this.idToken,
-      this.expiresIn,
+      this.id_token,
       this.refreshToken});
   factory LoginResponse.fromJson(Map<String, dynamic> json) =>
       _$LoginResponseFromJson(json);

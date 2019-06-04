@@ -1,4 +1,5 @@
 enum RouteState { HOME, LOGIN, REGISTER, NONE, TAB, TEMP }
+enum UserLocalState { TOKEN_ID, TOKEN_REFRESH }
 
 class EnumConverter {
   static String stringFromEnum(RouteState state) {

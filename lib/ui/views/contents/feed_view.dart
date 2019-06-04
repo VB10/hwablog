@@ -15,8 +15,8 @@ class _FeedViewState extends State<FeedView> {
   Widget build(BuildContext context) {
     return BaseView<FeedModel>(
       onModelReady: (model) {
-        //call list
-        model.getShopping();
+        model.context = context;
+        model.getShoppingList();
       },
       builder: (context, model, child) {
         return Scaffold(
@@ -35,59 +35,47 @@ class _FeedViewState extends State<FeedView> {
                 alignment: Alignment.topCenter,
               ),
             ),
-            child: model.state == ViewState.Busy
-                ? SliverToBoxAdapter(
-                    child: Container(
-                      padding: EdgeInsets.only(top: 20),
-                      alignment: Alignment.center,
-                      child: CircularProgressIndicator(),
-                    ),
-                  )
-                : SliverList(
-                    delegate: SliverChildBuilderDelegate(
-                      (BuildContext context, int index) {
-                        // To convert this infinite list to a list with three items,
-                        // uncomment the following line:
-                        // if (index > 3) return null;
-                        return Card(
-                            elevation: 10,
-                            margin: EdgeInsets.all(8),
-                            child: Column(
-                              children: <Widget>[
-                                Image.network(
-                                  "https://picsum.photos/200",
-                                  loadingBuilder: (BuildContext context,
-                                      Widget child,
-                                      ImageChunkEvent loadingProgress) {
-                                    if (loadingProgress == null) {
-                                      return child;
-                                    }
-                                    return CircularProgressIndicator();
-                                  },
-                                ),
-                                ListTile(
-                                  title: Text(model.shopList[index].item),
-                                  subtitle: Text(model.shopList[index].price),
-                                  trailing: IconButton(
-                                    icon: Icon(
-                                      Icons.shopping_cart,
-                                      color: Colors.green,
-                                    ),
-                                    onPressed: () {
-                                      Scaffold.of(context)
-                                          .showSnackBar(SnackBar(
-                                        content: Text("Sepete eklendi."),
-                                      ));
-                                    },
-                                  ),
-                                ),
-                              ],
-                            ));
-                      },
-                      // Or, uncomment the following line:
-                      childCount: model.shopList.length,
-                    ),
-                  ),
+            children: <Widget>[
+              SliverList(
+                delegate: SliverChildBuilderDelegate(
+                  (BuildContext context, int index) {
+                    model.shoopingListAddPage(index);
+                    return Card(
+                      elevation: 10,
+                      margin: EdgeInsets.all(8),
+                      child: Column(
+                        children: <Widget>[
+                          Image.network(
+                            "https://picsum.photos/200",
+                            loadingBuilder: (BuildContext context, Widget child,
+                                ImageChunkEvent loadingProgress) {
+                              if (loadingProgress == null) {
+                                return child;
+                              }
+                              return CircularProgressIndicator();
+                            },
+                          ),
+                          ListTile(
+                            title: Text(model.shopList[index].item),
+                            subtitle: Text(model.shopList[index].price),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                  // Or, uncomment the following line:
+                  childCount: model.shopList.length,
+                ),
+              ),
+              SliverToBoxAdapter(
+                child: Container(
+                    padding: EdgeInsets.only(top: 20),
+                    alignment: Alignment.center,
+                    child: model.state == ViewState.Idle
+                        ? null
+                        : LinearProgressIndicator()),
+              )
+            ],
           ),
         );
       },

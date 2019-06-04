@@ -1,6 +1,7 @@
 import 'package:get_it/get_it.dart';
 import 'package:hwablog/core/services/feed_api.dart';
 import 'package:hwablog/core/viewmodels/feed_model.dart';
+import 'package:hwablog/core/viewmodels/splash_model.dart';
 
 import 'core/services/api.dart';
 import 'core/viewmodels/login_model.dart';
@@ -12,4 +13,5 @@ void setupLocator() {
   locator.registerSingleton(FeedApi());
   locator.registerFactory(() => LoginModel());
   locator.registerFactory(() => FeedModel());
+  locator.registerFactory(() => SplashModel());
 }
