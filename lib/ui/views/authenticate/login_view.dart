@@ -17,7 +17,7 @@ class _LoginViewState extends State<LoginView> {
   Widget build(BuildContext context) {
     return BaseView<LoginModel>(
       onModelReady: (model) {
-        model.context = context;
+        model.setContext(context);
       },
       builder: (context, model, child) => Form(
             key: model.formKey,

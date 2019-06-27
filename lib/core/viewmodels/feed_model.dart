@@ -12,7 +12,7 @@ class FeedModel extends BaseModel {
   FeedApi _feedApi = locator<FeedApi>();
   String _token_id;
   List<ShoppingModel> shopList;
-  BuildContext context;
+  BuildContext _context;
 
   FeedModel() {
     shopList = new List<ShoppingModel>();
@@ -36,7 +36,7 @@ class FeedModel extends BaseModel {
   void onError(response) {
     setState(ViewState.Idle);
     if (response["status"] == 401) {
-      Navigator.of(context).pushNamedAndRemoveUntil(
+      Navigator.of(_context).pushNamedAndRemoveUntil(
           EnumConverter.stringFromEnum(RouteState.TAB),
           ModalRoute.withName('/'));
     }
@@ -61,5 +61,10 @@ class FeedModel extends BaseModel {
     }
     ;
     setState(ViewState.Idle);
+  }
+
+  @override
+  void setContext(BuildContext context) {
+    _context = context;
   }
 }

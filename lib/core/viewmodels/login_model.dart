@@ -16,7 +16,7 @@ class LoginModel extends BaseModel {
   TextEditingController userEmail;
   TextEditingController userPassword;
 
-  BuildContext context;
+  BuildContext _context;
 
   LoginModel() {
     userEmail = new TextEditingController();
@@ -38,11 +38,11 @@ class LoginModel extends BaseModel {
 
   Future onSuccess(dynamic response) async {
     var model = response as LoginResponse;
-    Scaffold.of(context)
+    Scaffold.of(_context)
         .showSnackBar(SnackBar(content: Text("Welcome ${model.email}")));
     saveUserState(model);
 
-    Navigator.of(context)
+    Navigator.of(_context)
         .pushNamed(EnumConverter.stringFromEnum(RouteState.HOME));
     print(model);
     setState(ViewState.Idle);
@@ -50,7 +50,7 @@ class LoginModel extends BaseModel {
 
   void onError(dynamic response) {
     var model = response as LoginResponse;
-    Navigator.of(context)
+    Navigator.of(_context)
         .pushNamed(EnumConverter.stringFromEnum(RouteState.REGISTER));
     setState(ViewState.Idle);
   }
@@ -63,9 +63,15 @@ class LoginModel extends BaseModel {
   saveUserState(LoginResponse model) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.reload();
-    
+
     prefs.setString(UserLocalState.TOKEN_ID.toString(), model.id_token);
     prefs.setString(
         UserLocalState.TOKEN_REFRESH.toString(), model.refreshToken);
+  }
+
+  @override
+  void setContext(BuildContext context) {
+    // TODO: implement setContext
+    _context = context;
   }
 }

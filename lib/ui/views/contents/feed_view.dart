@@ -15,7 +15,7 @@ class _FeedViewState extends State<FeedView> {
   Widget build(BuildContext context) {
     return BaseView<FeedModel>(
       onModelReady: (model) {
-        model.context = context;
+        model.setContext(context);
         model.getShoppingList();
       },
       builder: (context, model, child) {
@@ -47,13 +47,6 @@ class _FeedViewState extends State<FeedView> {
                         children: <Widget>[
                           Image.network(
                             "https://picsum.photos/200",
-                            loadingBuilder: (BuildContext context, Widget child,
-                                ImageChunkEvent loadingProgress) {
-                              if (loadingProgress == null) {
-                                return child;
-                              }
-                              return CircularProgressIndicator();
-                            },
                           ),
                           ListTile(
                             title: Text(model.shopList[index].item),

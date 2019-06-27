@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hwablog/core/enum/route.dart';
 import 'package:hwablog/core/model/error/error_firebase.dart';
-import 'package:hwablog/core/model/error/error_firebase_auth.dart';
 import 'package:hwablog/core/model/login/login_refresh_request.dart';
 import 'package:hwablog/core/model/login/login_refresh_response.dart';
 import 'package:hwablog/core/services/api.dart';
@@ -11,7 +10,7 @@ import '../../locator.dart';
 
 class SplashModel extends BaseModel {
   Api _api = locator<Api>();
-  BuildContext context;
+  BuildContext _context;
   SplashModel() {}
   SharedPreferences prefs;
   Future controlUserLocalData() async {
@@ -19,7 +18,7 @@ class SplashModel extends BaseModel {
 
     if (prefs.getString(UserLocalState.TOKEN_ID.toString()) == null ||
         prefs.getString(UserLocalState.TOKEN_REFRESH.toString()) == null) {
-      Navigator.of(context).pushNamedAndRemoveUntil(
+      Navigator.of(_context).pushNamedAndRemoveUntil(
           EnumConverter.stringFromEnum(RouteState.TAB),
           ModalRoute.withName('/'));
     } else {
@@ -41,7 +40,7 @@ class SplashModel extends BaseModel {
     prefs.setString(UserLocalState.TOKEN_ID.toString(), model.id_token);
     prefs.setString(
         UserLocalState.TOKEN_REFRESH.toString(), model.refresh_token);
-    Navigator.of(context).pushNamedAndRemoveUntil(
+    Navigator.of(_context).pushNamedAndRemoveUntil(
         EnumConverter.stringFromEnum(RouteState.HOME),
         ModalRoute.withName('/'));
   }
@@ -49,8 +48,13 @@ class SplashModel extends BaseModel {
   void onError(dynamic val) {
     final model = val as ErrorFirebaseModel;
     print(model.error.message);
-    Navigator.of(context).pushNamedAndRemoveUntil(
-        EnumConverter.stringFromEnum(RouteState.TAB),
-        ModalRoute.withName('/'));
+    Navigator.of(_context).pushNamedAndRemoveUntil(
+        EnumConverter.stringFromEnum(RouteState.TAB), ModalRoute.withName('/'));
+  }
+
+  @override
+  void setContext(BuildContext context) {
+    // TODO: implement setContext
+    _context = context;
   }
 }
