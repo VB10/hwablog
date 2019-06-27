@@ -8,8 +8,14 @@ part of 'login_request.dart';
 
 LoginRequest _$LoginRequestFromJson(Map<String, dynamic> json) {
   return LoginRequest(
-      email: json['email'] as String, password: json['password'] as String);
+      email: json['email'] as String,
+      password: json['password'] as String,
+      returnSecureToken: json['returnSecureToken'] as String);
 }
 
 Map<String, dynamic> _$LoginRequestToJson(LoginRequest instance) =>
-    <String, dynamic>{'email': instance.email, 'password': instance.password};
+    <String, dynamic>{
+      'email': instance.email,
+      'password': instance.password,
+      'returnSecureToken': instance.returnSecureToken
+    };

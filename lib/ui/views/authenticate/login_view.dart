@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:hwablog/core/enum/viewstate.dart';
-import 'package:hwablog/core/model/login/login_request.dart';
 import 'package:hwablog/core/viewmodels/login_model.dart';
 import 'package:hwablog/ui/shared/text_styles.dart';
 import 'package:hwablog/ui/shared/ui_helpers.dart';
 import 'package:hwablog/ui/shared/validator_helpers.dart';
 
-import '../../locator.dart';
-import 'baseview.dart';
+import '../baseview.dart';
 
 class LoginView extends StatefulWidget {
   @override
@@ -16,14 +14,11 @@ class LoginView extends StatefulWidget {
 
 class _LoginViewState extends State<LoginView> {
   @override
-  void initState() {
-    LoginModel.init(context);
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return BaseView<LoginModel>(
+      onModelReady: (model) {
+        model.setContext(context);
+      },
       builder: (context, model, child) => Form(
             key: model.formKey,
             child: Padding(

@@ -2,6 +2,11 @@ import 'package:flutter/material.dart';
 
 /// Contains useful functions to reduce boilerplate code
 class UIHelper {
+  // Image assets helper.
+  static String image(String name) {
+    return "assets/images/$name";
+  }
+
   // Vertical spacing constants. Adjust to your liking.
   static const double _VerticalSpaceSmall = 10.0;
   static const double _VerticalSpaceMedium = 20.0;
