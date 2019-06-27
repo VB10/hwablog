@@ -10,14 +10,14 @@ import 'package:hwablog/core/services/key.dart';
 class FeedApi {
   final _client = new http.Client();
 
-  Future shopList(String token_id) {
+  Future shopList(String tokenId) {
     Completer _completer = new Completer();
     String _advanceUrl = ApiHelper.database_mix_endpoint(
         child: "shopping",
         startAt: "",
         orderBy: "key",
         orderType: DatabaseLimit.limitToFirst,
-        auth: token_id);
+        auth: tokenId);
 
     _client.get(_advanceUrl).then((val) {
       final body = json.decode(val.body) as Map<String, dynamic>;

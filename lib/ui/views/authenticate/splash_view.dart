@@ -14,7 +14,7 @@ class _SplashViewState extends State<SplashView> {
     return BaseView<SplashModel>(
       onModelReady: (model) {
         model.setContext(context);
-        // model.controlUserLocalData();
+        model.controlUserLocalData();
       },
       builder: (context, model, child) => Scaffold(
             body: SafeArea(

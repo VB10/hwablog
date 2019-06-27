@@ -40,7 +40,7 @@ class LoginModel extends BaseModel {
     var model = response as LoginResponse;
     Scaffold.of(_context)
         .showSnackBar(SnackBar(content: Text("Welcome ${model.email}")));
-    saveUserState(model);
+    await saveUserState(model);
 
     Navigator.of(_context)
         .pushNamed(EnumConverter.stringFromEnum(RouteState.HOME));
@@ -60,11 +60,11 @@ class LoginModel extends BaseModel {
     this.removeListener(() => this);
   }
 
-  saveUserState(LoginResponse model) async {
+  Future saveUserState(LoginResponse model) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.reload();
 
-    prefs.setString(UserLocalState.TOKEN_ID.toString(), model.id_token);
+    prefs.setString(UserLocalState.TOKEN_ID.toString(), model.idToken);
     prefs.setString(
         UserLocalState.TOKEN_REFRESH.toString(), model.refreshToken);
   }

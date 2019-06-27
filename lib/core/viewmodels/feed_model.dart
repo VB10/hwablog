@@ -33,6 +33,10 @@ class FeedModel extends BaseModel {
     setState(ViewState.Idle);
   }
 
+  Future removeAllLocalDatas() async {
+    (await SharedPreferences.getInstance()).clear();
+  }
+
   void onError(response) {
     setState(ViewState.Idle);
     if (response["status"] == 401) {

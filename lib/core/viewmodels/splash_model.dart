@@ -56,5 +56,6 @@ class SplashModel extends BaseModel {
   void setContext(BuildContext context) {
     // TODO: implement setContext
     _context = context;
+    
   }
 }

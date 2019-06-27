@@ -11,7 +11,7 @@ LoginResponse _$LoginResponseFromJson(Map<String, dynamic> json) {
       kind: json['kind'] as String,
       localId: json['localId'] as String,
       email: json['email'] as String,
-      id_token: json['id_token'] as String,
+      idToken: json['idToken'] as String,
       refreshToken: json['refreshToken'] as String);
 }
 
@@ -20,6 +20,6 @@ Map<String, dynamic> _$LoginResponseToJson(LoginResponse instance) =>
       'kind': instance.kind,
       'localId': instance.localId,
       'email': instance.email,
-      'id_token': instance.id_token,
+      'idToken': instance.idToken,
       'refreshToken': instance.refreshToken
     };
