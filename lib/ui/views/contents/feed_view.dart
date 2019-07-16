@@ -22,7 +22,7 @@ class _FeedViewState extends State<FeedView> {
         return Scaffold(
           floatingActionButton: FloatingActionButton(
             onPressed: () {
-              model.removeAllLocalDatas();
+              // model.removeAllLocalDatas();
             },
             child: Icon(Icons.add),
           ),

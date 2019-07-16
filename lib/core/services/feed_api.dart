@@ -2,13 +2,21 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:hwablog/core/model/base/query_model.dart';
 import 'package:hwablog/core/model/error/error_firebase_auth.dart';
 import 'package:hwablog/core/model/feed/feed_model.dart';
+import 'package:hwablog/core/services/base/base_api.dart';
 import 'package:hwablog/core/services/key.dart';
 
 /// The service responsible for networking requests
 class FeedApi {
   final _client = new http.Client();
+  final _apiManager = ApiManager.instance().baseHttp;
+
+  Future postShopItem() async {
+    // var x =
+        // await _apiManager.addQuery(QueryModel(key: "a", value: "asd")).getR();
+  }
 
   Future shopList(String tokenId) {
     Completer _completer = new Completer();
@@ -18,7 +26,7 @@ class FeedApi {
         orderBy: "key",
         orderType: DatabaseLimit.limitToFirst,
         auth: tokenId);
-
+  
     _client.get(_advanceUrl).then((val) {
       final body = json.decode(val.body) as Map<String, dynamic>;
       switch (val.statusCode) {
