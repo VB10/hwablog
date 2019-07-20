@@ -9,13 +9,12 @@ import 'package:hwablog/core/services/base/base_api.dart';
 import 'package:hwablog/core/services/key.dart';
 
 /// The service responsible for networking requests
-class FeedApi {
-  final _client = new http.Client();
-  final _apiManager = ApiManager.instance().baseHttp;
+mixin FeedApi {
+  final _client = ApiManager.instance().baseHttp;
 
   Future postShopItem() async {
     // var x =
-        // await _apiManager.addQuery(QueryModel(key: "a", value: "asd")).getR();
+    // await _apiManager.addQuery(QueryModel(key: "a", value: "asd")).getR();
   }
 
   Future shopList(String tokenId) {
@@ -26,7 +25,9 @@ class FeedApi {
         orderBy: "key",
         orderType: DatabaseLimit.limitToFirst,
         auth: tokenId);
-  
+
+    _client.addQuery(key: "child", value: "shopping").fetch();
+
     _client.get(_advanceUrl).then((val) {
       final body = json.decode(val.body) as Map<String, dynamic>;
       switch (val.statusCode) {

@@ -2,18 +2,24 @@ import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 import 'package:hwablog/core/model/base/query_model.dart';
-import 'package:hwablog/core/model/feed/feed_model.dart';
+
+enum HttpType { GET, POST }
 
 class BaseHttp {
   final String baseUrl;
+  Map<String, String> _header;
+  String _queryParamsUrl;
+  String _baseUrl = "";
+  dynamic _body;
+  HttpType _type;
+
   BaseHttp({@required this.baseUrl}) {
     _queryParamsUrl = "";
+    _baseUrl = "";
+    _header = Map<String, String>();
   }
 
-  String _queryParamsUrl;
-  dynamic _body;
-
-  BaseHttp addQuery(QueryModel queryModel) {
+  BaseHttp addQueryModel(QueryModel queryModel) {
     if (!_queryParamsUrl.contains("?")) {
       _queryParamsUrl += "?${queryModel.key}=${queryModel.value}";
     } else {
@@ -22,32 +28,47 @@ class BaseHttp {
     return this;
   }
 
-  BaseHttp addBody(dynamic model) {
-    if (model == null) {
-      _body = model;
+  BaseHttp addQuery({String key, String value}) {
+    if (!_queryParamsUrl.contains("?")) {
+      _queryParamsUrl += "?$key=$value";
+    } else {
+      _queryParamsUrl += "&$key=$value";
     }
     return this;
   }
 
-  Future<Response> getR(HttpType type) {
-    String _url = "";
-    if (_queryParamsUrl.isNotEmpty) _url = "baseUrl" + _queryParamsUrl;
-
-    final xa = http.Request("", Uri());
-  
-    switch (type) {
-      case HttpType.GET:
-        return http.get(_url);
-        break;
-      case HttpType.POST:
-        return http.post(_url, body: _body);
-        break;
-      default:
+  BaseHttp addHeader({@required String key, @required String value}) {
+    if (key.isNotEmpty & value.isNotEmpty) {
+      _header[key] = value;
     }
-    return http.get(_url);
+    return this;
   }
 
-  post() {}
-}
+  BaseHttp get({String path}) {
+    if (_queryParamsUrl.isNotEmpty) _baseUrl = baseUrl + _queryParamsUrl;
+    return this;
+  }
 
-enum HttpType { POST, GET }
+  BaseHttp post({String path, dynamic body}) {
+    if (_queryParamsUrl.isNotEmpty)
+      _baseUrl = baseUrl + _queryParamsUrl;
+    else
+      _baseUrl = baseUrl;
+
+    if (body != null) {
+      _body = body;
+    }
+    return this;
+  }
+
+  Future<Response> fetch() async {
+    switch (_type) {
+      case HttpType.GET:
+        return await http.get(_baseUrl, headers: _header);
+      case HttpType.POST:
+        return await http.post(_baseUrl, headers: _header, body: _body);
+      default:
+        return await http.post(_baseUrl, headers: _header, body: _body);
+    }
+  }
+}
