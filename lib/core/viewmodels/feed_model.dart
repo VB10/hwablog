@@ -50,7 +50,7 @@ class FeedModel extends BaseModel {
     if (index >= shopList.length - 1) {
       _feedApi
           .shopListPageOrderbyKey(
-              key: shopList[index].key, user_token: _token_id)
+              key: shopList[index].key, userToken: _token_id)
           .then(onSuccessPager)
           .catchError(onError);
     }

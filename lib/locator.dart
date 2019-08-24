@@ -10,7 +10,6 @@ GetIt locator = GetIt();
 
 void setupLocator() {
   locator.registerSingleton(Api());
-  locator.registerSingleton(FeedApi());
   locator.registerFactory(() => LoginModel());
   locator.registerFactory(() => FeedModel());
   locator.registerFactory(() => SplashModel());

@@ -49,7 +49,7 @@ packages:
       name: build_daemon
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.0"
+    version: "2.0.0"
   build_resolvers:
     dependency: transitive
     description:
@@ -58,12 +58,12 @@ packages:
     source: hosted
     version: "1.0.5"
   build_runner:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: build_runner
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.5.0"
+    version: "1.6.4"
   build_runner_core:
     dependency: transitive
     description:
@@ -206,7 +206,7 @@ packages:
       name: http_multi_server
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.6"
+    version: "2.1.0"
   http_parser:
     dependency: transitive
     description:
@@ -257,7 +257,7 @@ packages:
     source: hosted
     version: "0.11.3+2"
   matcher:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: matcher
       url: "https://pub.dartlang.org"
@@ -340,6 +340,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.3"
+  reflectable:
+    dependency: "direct main"
+    description:
+      name: reflectable
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.1.0"
   shared_preferences:
     dependency: "direct main"
     description:
@@ -465,5 +472,5 @@ packages:
     source: hosted
     version: "2.1.15"
 sdks:
-  dart: ">=2.3.0-dev.0.1 <3.0.0"
+  dart: ">=2.3.0 <3.0.0"
   flutter: ">=0.1.4 <2.0.0"

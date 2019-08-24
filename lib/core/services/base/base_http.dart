@@ -1,17 +1,29 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
-import 'package:http/http.dart';
 import 'package:hwablog/core/model/base/query_model.dart';
+import 'package:hwablog/core/services/base/result_model.dart';
+import 'package:hwablog/core/services/base/test.dart';
+import 'package:hwablog/core/services/base/todo.dart';
+import 'package:matcher/matcher.dart';
+import 'package:matcher/matcher.dart' as prefix0;
+import 'package:reflectable/mirrors.dart';
+
+import 'reflect.dart';
 
 enum HttpType { GET, POST }
 
-class BaseHttp {
+class BaseHttp<T extends BaseJsonModel, E extends BaseJsonModel> {
   final String baseUrl;
   Map<String, String> _header;
   String _queryParamsUrl;
   String _baseUrl = "";
   dynamic _body;
   HttpType _type;
+
+  T _responseModel;
+  E _errorModel;
 
   BaseHttp({@required this.baseUrl}) {
     _queryParamsUrl = "";
@@ -44,10 +56,25 @@ class BaseHttp {
     return this;
   }
 
-  BaseHttp get({String path}) {
+  Future<T> get<T extends BaseJsonModel>({String path}) async {
+    // T.fromJson();
     if (_queryParamsUrl.isNotEmpty) _baseUrl = baseUrl + _queryParamsUrl;
-    return this;
+
+    final response = await http.get(path, headers: _header);
+    var x = (T as dynamic);
+    final body = json.decode(response.body);
+    print(Todo.fromJson(body));
+    ClassMirror classMirror = reflector.reflectType(T);
+    var mirror = classMirror.newInstance("fromJson", [body]);
+    print(mirror);
+    return x;
+
+    // x.fromJson();
+
+    // return this;
   }
+
+  T cast<T>(x) => x is T ? x : null;
 
   BaseHttp post({String path, dynamic body}) {
     if (_queryParamsUrl.isNotEmpty)
@@ -61,13 +88,18 @@ class BaseHttp {
     return this;
   }
 
-  Future<Response> fetch() async {
+  Future fetch<T extends BaseJsonModel>() async {
     switch (_type) {
       case HttpType.GET:
-        return await http.get(_baseUrl, headers: _header);
+        final jsonModel = (T as BaseJsonModel);
+
+        // T.ba
+
+        final response = await http.get(_baseUrl, headers: _header);
+        // var result = _responseModel.fromJson(json.decode(response.body));
+        // return result;
+        break;
       case HttpType.POST:
-        return await http.post(_baseUrl, headers: _header, body: _body);
-      default:
         return await http.post(_baseUrl, headers: _header, body: _body);
     }
   }

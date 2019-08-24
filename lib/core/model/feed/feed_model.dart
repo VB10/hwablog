@@ -1,6 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
 part 'feed_model.g.dart';
-
 @JsonSerializable()
 class ShoppingModel {
   @JsonKey(ignore: true)

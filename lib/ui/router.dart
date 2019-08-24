@@ -4,9 +4,11 @@ import 'package:hwablog/ui/views/authenticate/register_view.dart';
 import 'package:hwablog/ui/views/authenticate/splash_view.dart';
 import 'package:hwablog/ui/views/authenticate/tab.dart';
 import 'package:hwablog/ui/views/contents/feed_view.dart';
+import 'package:hwablog/ui/views/sample_view.dart';
 
 class Router {
   static Route<dynamic> generateRoute(RouteSettings settings) {
+    return MaterialPageRoute(builder: (_) => SampleView());
     final _routeName = EnumConverter.enumFromString(settings.name);
     final _nonePageRoute = MaterialPageRoute(
         builder: (_) => Scaffold(
