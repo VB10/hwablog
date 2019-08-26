@@ -17,8 +17,8 @@ class _SampleViewState extends State<SampleView> {
           child: Text("oke"),
           onPressed: () async {
             var manager = ApiManager.instance().baseHttp;
-            var result = await manager.get<Todo>(
-                path: "https://jsonplaceholder.typicode.com/todos/1");
+            var result = await manager
+                .get<Todo>("https://jsonplaceholder.typicode.com/todos/1");
             print(result);
           },
         ),

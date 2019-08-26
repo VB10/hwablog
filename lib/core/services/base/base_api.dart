@@ -1,3 +1,5 @@
+import 'package:hwablog/core/services/key.dart';
+
 import 'base_http.dart';
 
 class ApiManager {
@@ -5,7 +7,7 @@ class ApiManager {
   
   static ApiManager _instance;
   ApiManager._privateInit() {
-    baseHttp = new BaseHttp(baseUrl: "asdasd");
+    baseHttp = new BaseHttp(baseUrl: ApiHelper.DATABASE_URL);
   }
 
   static ApiManager instance() {

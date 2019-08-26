@@ -1,9 +1,13 @@
 import 'package:flutter/widgets.dart';
 import 'package:hwablog/core/enum/viewstate.dart';
+import 'package:hwablog/core/services/api.dart';
+import 'package:hwablog/locator.dart';
 
 //Consumer olarak ürettiğimiz sayfalarda değişiklikleri ilgili yerlere haber vermek
 //için kullanılır
 abstract class BaseModel extends ChangeNotifier {
+  Api baseAPI = locator<Api>();
+
   void setContext(BuildContext context);
   //Default state ataması her sayfada gelen ve ilk iş yapılmayan anı bize söyler
   ViewState _state = ViewState.Idle;

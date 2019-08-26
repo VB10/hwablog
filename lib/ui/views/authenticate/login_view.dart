@@ -19,63 +19,63 @@ class _LoginViewState extends State<LoginView> {
       onModelReady: (model) {
         model.setContext(context);
       },
-      builder: (context, model, child) => Form(
-            key: model.formKey,
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.center,
+      builder: (context, model, child) => Scaffold(
+        key: model.loginScaffoldKey,
+        body: Form(
+          key: model.formKey,
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Placeholder(
+                fallbackHeight: 150,
+                color: Colors.green,
+              ),
+              TextFormField(
+                controller: model.userEmail,
+                validator: ValidatorHelper.emailValidator,
+                decoration: InputDecoration(
+                  helperText: "Write mail adress.",
+                  hintText: "hwa@gmail.com",
+                  labelText: "Email",
+                ),
+              ),
+              TextFormField(
+                obscureText: true,
+                controller: model.userPassword,
+                validator: ValidatorHelper.passwordValidator,
+                decoration: InputDecoration(
+                    helperText: "Write mail password.",
+                    hintText: "*****",
+                    labelText: "Password"),
+              ),
+              Row(
                 children: <Widget>[
-                  Placeholder(
-                    fallbackHeight: 150,
-                    color: Colors.green,
-                  ),
-                  TextFormField(
-                    controller: model.userEmail,
-                    validator: ValidatorHelper.emailValidator,
-                    decoration: InputDecoration(
-                      helperText: "Write mail adress.",
-                      hintText: "hwa@gmail.com",
-                      labelText: "Email",
+                  Expanded(
+                    child: RaisedButton(
+                      child: Icon(Icons.mail),
+                      onPressed: () {},
                     ),
                   ),
-                  TextFormField(
-                    obscureText: true,
-                    controller: model.userPassword,
-                    validator: ValidatorHelper.passwordValidator,
-                    decoration: InputDecoration(
-                        helperText: "Write mail password.",
-                        hintText: "*****",
-                        labelText: "Password"),
-                  ),
-                  Row(
-                    children: <Widget>[
-                      Expanded(
-                        child: RaisedButton(
-                          child: Icon(Icons.mail),
-                          onPressed: () {},
-                        ),
-                      ),
-                      UIHelper.horizontalSpaceSmall(),
-                      Expanded(
-                        child: RaisedButton(
-                          color: Colors.blue,
-                          child: model.state == ViewState.Idle
-                              ? Text(
-                                  "Login",
-                                  style: loginButtonStyle,
-                                )
-                              : CircularProgressIndicator(),
-                          onPressed: model.login,
-                        ),
-                      ),
-                    ],
+                  UIHelper.horizontalSpaceSmall(),
+                  Expanded(
+                    child: RaisedButton(
+                      color: Colors.blue,
+                      child: model.state == ViewState.Idle
+                          ? Text(
+                              "Login",
+                              style: loginButtonStyle,
+                            )
+                          : CircularProgressIndicator(),
+                      onPressed: model.login,
+                    ),
                   ),
                 ],
               ),
-            ),
+            ],
           ),
+        ),
+      ),
     );
   }
 }

@@ -2,9 +2,10 @@
 // https://github.com/dart-lang/reflectable.
 
 import "dart:core";
+import 'package:hwablog/core/model/feed/feed_model.dart' as prefix2;
 import 'package:hwablog/core/services/base/reflect.dart' as prefix1;
 import 'package:hwablog/core/services/base/rtest.dart' as prefix0;
-import 'package:hwablog/core/services/base/todo.dart' as prefix2;
+import 'package:hwablog/core/services/base/todo.dart' as prefix3;
 
 // ignore:unused_import
 import "package:reflectable/mirrors.dart" as m;
@@ -103,8 +104,8 @@ final _data = <r.Reflectable, r.ReflectorData>{
   const prefix1.Reflector(): new r.ReflectorData(
       <m.TypeMirror>[
         new r.NonGenericClassMirrorImpl(
-            r"Todo",
-            r".Todo",
+            r"Shop",
+            r".Shop",
             7,
             0,
             const prefix1.Reflector(),
@@ -115,15 +116,55 @@ final _data = <r.Reflectable, r.ReflectorData>{
             {},
             {},
             {
+              r"": (b) => ({key, company, item, price}) => b
+                  ? new prefix2.Shop(
+                      key: key, company: company, item: item, price: price)
+                  : null,
+              r"fromJson": (b) =>
+                  (json) => b ? new prefix2.Shop.fromJson(json) : null
+            },
+            -1,
+            -1,
+            const <int>[-1],
+            null,
+            {
+              r"==": 1,
+              r"toString": 0,
+              r"noSuchMethod": 1,
+              r"hashCode": 0,
+              r"runtimeType": 0,
+              r"toJson": 0,
+              r"key": 0,
+              r"key=": 1,
+              r"company": 0,
+              r"company=": 1,
+              r"item": 0,
+              r"item=": 1,
+              r"price": 0,
+              r"price=": 1
+            }),
+        new r.NonGenericClassMirrorImpl(
+            r"Todo",
+            r".Todo",
+            7,
+            1,
+            const prefix1.Reflector(),
+            const <int>[-1],
+            null,
+            null,
+            -1,
+            {},
+            {},
+            {
               r"": (b) => ({userId, id, title, completed}) => b
-                  ? new prefix2.Todo(
+                  ? new prefix3.Todo(
                       userId: userId,
                       id: id,
                       title: title,
                       completed: completed)
                   : null,
               r"fromJson": (b) =>
-                  (json) => b ? new prefix2.Todo.fromJson(json) : null
+                  (json) => b ? new prefix3.Todo.fromJson(json) : null
             },
             -1,
             -1,
@@ -149,7 +190,7 @@ final _data = <r.Reflectable, r.ReflectorData>{
             r"A",
             r".A",
             7,
-            1,
+            2,
             const prefix1.Reflector(),
             const <int>[-1],
             null,
@@ -175,8 +216,8 @@ final _data = <r.Reflectable, r.ReflectorData>{
       ],
       null,
       null,
-      <Type>[prefix2.Todo, prefix1.A],
-      2,
+      <Type>[prefix2.Shop, prefix3.Todo, prefix1.A],
+      3,
       {
         r"==": (dynamic instance) => (x) => instance == x,
         r"toString": (dynamic instance) => instance.toString,
@@ -184,6 +225,10 @@ final _data = <r.Reflectable, r.ReflectorData>{
         r"hashCode": (dynamic instance) => instance.hashCode,
         r"runtimeType": (dynamic instance) => instance.runtimeType,
         r"toJson": (dynamic instance) => instance.toJson,
+        r"key": (dynamic instance) => instance.key,
+        r"company": (dynamic instance) => instance.company,
+        r"item": (dynamic instance) => instance.item,
+        r"price": (dynamic instance) => instance.price,
         r"userId": (dynamic instance) => instance.userId,
         r"id": (dynamic instance) => instance.id,
         r"title": (dynamic instance) => instance.title,
@@ -193,6 +238,10 @@ final _data = <r.Reflectable, r.ReflectorData>{
         r"a": (dynamic instance) => instance.a
       },
       {
+        r"key=": (dynamic instance, value) => instance.key = value,
+        r"company=": (dynamic instance, value) => instance.company = value,
+        r"item=": (dynamic instance, value) => instance.item = value,
+        r"price=": (dynamic instance, value) => instance.price = value,
         r"userId=": (dynamic instance, value) => instance.userId = value,
         r"id=": (dynamic instance, value) => instance.id = value,
         r"title=": (dynamic instance, value) => instance.title = value,
@@ -202,6 +251,11 @@ final _data = <r.Reflectable, r.ReflectorData>{
       [
         const [0, 0, null],
         const [1, 0, null],
+        const [
+          0,
+          0,
+          const [#key, #company, #item, #price]
+        ],
         const [
           0,
           0,

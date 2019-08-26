@@ -17,7 +17,6 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData.light(),
-      title: 'Segment Demo',
       onGenerateRoute: Router.generateRoute,
       debugShowCheckedModeBanner: false,
     );

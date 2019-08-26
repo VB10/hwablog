@@ -11,7 +11,7 @@ LoginRefreshTokenResponse _$LoginRefreshTokenResponseFromJson(
   return LoginRefreshTokenResponse()
     ..access_token = json['access_token'] as String
     ..token_type = json['token_type'] as String
-    ..refresh_token = json['refresh_token'] as String
+    ..refreshToken = json['refreshToken'] as String
     ..id_token = json['id_token'] as String
     ..expiresIn = json['expiresIn'] as int
     ..user_id = json['user_id'] as String
@@ -23,7 +23,7 @@ Map<String, dynamic> _$LoginRefreshTokenResponseToJson(
     <String, dynamic>{
       'access_token': instance.access_token,
       'token_type': instance.token_type,
-      'refresh_token': instance.refresh_token,
+      'refreshToken': instance.refreshToken,
       'id_token': instance.id_token,
       'expiresIn': instance.expiresIn,
       'user_id': instance.user_id,

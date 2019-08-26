@@ -10,32 +10,23 @@ import 'base_model.dart';
 
 class FeedModel extends BaseModel {
   FeedApi _feedApi = locator<FeedApi>();
-  String _token_id;
-  List<ShoppingModel> shopList;
+  String _tokenID;
+  List<Shop> shopList;
   BuildContext _context;
 
   FeedModel() {
-    shopList = new List<ShoppingModel>();
-    _token_id = "";
+    shopList = new List<Shop>();
+    _tokenID = "";
   }
   Future getShoppingList() async {
     setState(ViewState.Busy);
     SharedPreferences prefs = await SharedPreferences.getInstance();
-
-    _token_id = prefs.getString(UserLocalState.TOKEN_ID.toString());
-
-    _feedApi.shopList(_token_id).then(onSuccess).catchError(onError);
-  }
-
-  void onSuccess(response) {
-    final _list = response as List<ShoppingModel>;
-    shopList.addAll(_list);
+    _tokenID = prefs.getString(UserLocalState.TOKEN_ID.toString());
+    shopList = await _feedApi.shoppingList<Shop>(_tokenID);
     setState(ViewState.Idle);
   }
 
-  Future removeAllLocalDatas() async {
-    (await SharedPreferences.getInstance()).clear();
-  }
+ 
 
   void onError(response) {
     setState(ViewState.Idle);
@@ -49,15 +40,14 @@ class FeedModel extends BaseModel {
   void shoopingListAddPage(int index) {
     if (index >= shopList.length - 1) {
       _feedApi
-          .shopListPageOrderbyKey(
-              key: shopList[index].key, userToken: _token_id)
+          .shopListPageOrderbyKey(key: shopList[index].key, userToken: _tokenID)
           .then(onSuccessPager)
           .catchError(onError);
     }
   }
 
   void onSuccessPager(response) {
-    final _list = response as List<ShoppingModel>;
+    final _list = response as List<Shop>;
     //firebase always return get key child.
     if (_list.length > 1) {
       _list.removeAt(0);

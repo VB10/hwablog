@@ -9,29 +9,32 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../locator.dart';
 
 class SplashModel extends BaseModel {
-  Api _api = locator<Api>();
   BuildContext _context;
-  SplashModel() {}
+
   SharedPreferences prefs;
   Future controlUserLocalData() async {
     prefs = await SharedPreferences.getInstance();
 
-    if (prefs.getString(UserLocalState.TOKEN_ID.toString()) == null ||
-        prefs.getString(UserLocalState.TOKEN_REFRESH.toString()) == null) {
+    if (prefs.getString(UserLocalState.TOKEN_ID.toString()) != null &&
+        prefs.getString(UserLocalState.TOKEN_REFRESH.toString()) != null) {
       Navigator.of(_context).pushNamedAndRemoveUntil(
-          EnumConverter.stringFromEnum(RouteState.TAB),
+          EnumConverter.stringFromEnum(RouteState.HOME),
           ModalRoute.withName('/'));
     } else {
-      LoginRefreshTokenRequest refreshTokenRequest = LoginRefreshTokenRequest(
-        grant_type: "refresh_token",
-        refresh_token: prefs.getString(
-          UserLocalState.TOKEN_REFRESH.toString(),
-        ),
-      );
-      _api
-          .refresh_token(refreshTokenRequest)
-          .then(onSuccess)
-          .catchError(onError);
+      Navigator.of(_context).pushNamedAndRemoveUntil(
+          EnumConverter.stringFromEnum(RouteState.LOGIN),
+          ModalRoute.withName('/'));
+
+      // LoginRefreshTokenRequest refreshTokenRequest = LoginRefreshTokenRequest(
+      //   grant_type: "refreshToken",
+      //   refreshToken: prefs.getString(
+      //     UserLocalState.TOKEN_REFRESH.toString(),
+      //   ),
+      // );
+      // _api
+      //     .refreshToken(refreshTokenRequest)
+      //     .then(onSuccess)
+      //     .catchError(onError);
     }
   }
 
@@ -39,7 +42,7 @@ class SplashModel extends BaseModel {
     final model = val as LoginRefreshTokenResponse;
     prefs.setString(UserLocalState.TOKEN_ID.toString(), model.id_token);
     prefs.setString(
-        UserLocalState.TOKEN_REFRESH.toString(), model.refresh_token);
+        UserLocalState.TOKEN_REFRESH.toString(), model.refreshToken);
     Navigator.of(_context).pushNamedAndRemoveUntil(
         EnumConverter.stringFromEnum(RouteState.HOME),
         ModalRoute.withName('/'));
@@ -56,6 +59,5 @@ class SplashModel extends BaseModel {
   void setContext(BuildContext context) {
     // TODO: implement setContext
     _context = context;
-    
   }
 }

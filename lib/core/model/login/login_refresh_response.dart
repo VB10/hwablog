@@ -6,7 +6,7 @@ part 'login_refresh_response.g.dart';
 class LoginRefreshTokenResponse {
   String access_token;
   String token_type;
-  String refresh_token;
+  String refreshToken;
   String id_token;
   int expiresIn;
   String user_id;

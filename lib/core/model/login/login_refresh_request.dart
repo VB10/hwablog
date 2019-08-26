@@ -4,9 +4,9 @@ part 'login_refresh_request.g.dart';
 @JsonSerializable()
 class LoginRefreshTokenRequest {
   String grant_type;
-  String refresh_token;
+  String refreshToken;
 
-  LoginRefreshTokenRequest({this.grant_type, this.refresh_token});
+  LoginRefreshTokenRequest({this.grant_type, this.refreshToken});
   factory LoginRefreshTokenRequest.fromJson(Map<String, dynamic> json) =>
       _$LoginRefreshTokenRequestFromJson(json);
   Map<String, dynamic> toJson() => _$LoginRefreshTokenRequestToJson(this);

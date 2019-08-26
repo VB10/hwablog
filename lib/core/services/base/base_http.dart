@@ -1,7 +1,9 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
+import 'package:hwablog/core/enum/service_constant.dart';
 import 'package:hwablog/core/model/base/query_model.dart';
 import 'package:hwablog/core/services/base/result_model.dart';
 import 'package:hwablog/core/services/base/test.dart';
@@ -14,20 +16,16 @@ import 'reflect.dart';
 
 enum HttpType { GET, POST }
 
-class BaseHttp<T extends BaseJsonModel, E extends BaseJsonModel> {
+class BaseHttp {
   final String baseUrl;
   Map<String, String> _header;
   String _queryParamsUrl;
   String _baseUrl = "";
   dynamic _body;
   HttpType _type;
-
-  T _responseModel;
-  E _errorModel;
-
   BaseHttp({@required this.baseUrl}) {
     _queryParamsUrl = "";
-    _baseUrl = "";
+    _baseUrl = baseUrl;
     _header = Map<String, String>();
   }
 
@@ -37,6 +35,12 @@ class BaseHttp<T extends BaseJsonModel, E extends BaseJsonModel> {
     } else {
       _queryParamsUrl += "&${queryModel.key}=${queryModel.value}";
     }
+    return this;
+  }
+
+  /// Call database [child] value
+  BaseHttp subChild(String child) {
+    _baseUrl += "$child.json";
     return this;
   }
 
@@ -56,25 +60,42 @@ class BaseHttp<T extends BaseJsonModel, E extends BaseJsonModel> {
     return this;
   }
 
-  Future<T> get<T extends BaseJsonModel>({String path}) async {
-    // T.fromJson();
-    if (_queryParamsUrl.isNotEmpty) _baseUrl = baseUrl + _queryParamsUrl;
-
-    final response = await http.get(path, headers: _header);
-    var x = (T as dynamic);
-    final body = json.decode(response.body);
-    print(Todo.fromJson(body));
+  Future get<T extends BaseJsonModel>(String path,
+      {bool isList = false}) async {
     ClassMirror classMirror = reflector.reflectType(T);
-    var mirror = classMirror.newInstance("fromJson", [body]);
-    print(mirror);
-    return x;
 
-    // x.fromJson();
+    try {
+      classMirror.newInstance(ServiceConstant.FROM_JSON, []);
+    } catch (e) {
+      if (e is TypeError == false) {
+        return Future.error(
+            "$T model must be set ${ServiceConstant.FROM_JSON} method");
+      }
+    }
 
-    // return this;
+    _baseUrl = "$baseUrl$path.json$_queryParamsUrl";
+    print(_baseUrl);
+    final response = await http.get(_baseUrl, headers: _header);
+    if (response.statusCode == HttpStatus.ok) {
+      final body = json.decode(response.body);
+      if (isList) {
+        var listRepsonse = List<T>();
+        body.forEach((key, value) {
+          T responsChildValue =
+              classMirror.newInstance(ServiceConstant.FROM_JSON, [value]);
+          listRepsonse.add(responsChildValue);
+        });
+        return listRepsonse;
+      } else {
+        T responsChildValue =
+            classMirror.newInstance(ServiceConstant.FROM_JSON, [body]);
+        return responsChildValue;
+      }
+    } else {
+      print(response.body);
+      return Future.error(response.body);
+    }
   }
-
-  T cast<T>(x) => x is T ? x : null;
 
   BaseHttp post({String path, dynamic body}) {
     if (_queryParamsUrl.isNotEmpty)

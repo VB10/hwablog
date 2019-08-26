@@ -2,18 +2,17 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:hwablog/core/enum/service_constant.dart';
 import 'package:hwablog/core/model/base/query_model.dart';
 import 'package:hwablog/core/model/error/error_firebase_auth.dart';
 import 'package:hwablog/core/model/feed/feed_model.dart';
 import 'package:hwablog/core/model/login/login_refresh_request.dart';
 import 'package:hwablog/core/services/base/base_api.dart';
+import 'package:hwablog/core/services/base/result_model.dart';
 import 'package:hwablog/core/services/key.dart';
 
-import 'base/result_model.dart';
-import 'base/test.dart';
-
 /// The service responsible for networking requests
-mixin FeedApi {
+class FeedApi {
   final _client = ApiManager.instance().baseHttp;
 
   Future postShopItem() async {
@@ -21,7 +20,14 @@ mixin FeedApi {
     // await _apiManager.addQuery(QueryModel(key: "a", value: "asd")).getR();
   }
 
-
+  Future shoppingList<T extends BaseJsonModel>(String token) async {
+    return await _client
+        .addQuery(key: ServiceConstant.ORDER_BY, value: "\"key\"")
+        .addQuery(key: ServiceConstant.AUTH, value: token)
+        .addQuery(key: ServiceConstant.START_AT, value: "")
+        .addQuery(key: ServiceConstant.LIMIT_TO_FIRST, value: "5")
+        .get<T>("shopping", isList: true);
+  }
 
   Future shopList(String tokenId) {
     Completer _completer = new Completer();
@@ -31,9 +37,8 @@ mixin FeedApi {
         orderBy: "key",
         orderType: DatabaseLimit.limitToFirst,
         auth: tokenId);
-    
 
-    _client.get<Test>();
+    // _client.get<Test>();
     // _client.get(path: "a").addQuery(key: "child", value: "shopping").fetch<>();
 
     // _client.get(_advanceUrl).then((val) {

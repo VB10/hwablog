@@ -13,4 +13,5 @@ void setupLocator() {
   locator.registerFactory(() => LoginModel());
   locator.registerFactory(() => FeedModel());
   locator.registerFactory(() => SplashModel());
+  locator.registerFactory(() => FeedApi());
 }

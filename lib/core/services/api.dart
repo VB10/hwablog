@@ -8,12 +8,13 @@ import 'package:hwablog/core/model/login/login_refresh_response.dart';
 import 'package:hwablog/core/model/login/login_request.dart';
 import 'package:hwablog/core/model/login/login_response.dart';
 import 'package:hwablog/core/services/key.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 /// The service responsible for networking requests
 class Api {
   final _client = new http.Client();
 
-  Future signin_user(LoginRequest login) {
+  Future signinUser(LoginRequest login) {
     Completer _completer = new Completer();
     _client
         .post(
@@ -33,7 +34,7 @@ class Api {
     return _completer.future;
   }
 
-  Future refresh_token(LoginRefreshTokenRequest refreshModel) {
+  Future refreshToken(LoginRefreshTokenRequest refreshModel) {
     Completer _completer = new Completer();
     _client
         .post('${ApiHelper.AUTH_REFRESH_POINT}/token?key=${ApiHelper.API_KEY}',
@@ -50,5 +51,9 @@ class Api {
       }
     });
     return _completer.future;
+  }
+
+  Future removeAllLocalDatas() async {
+    (await SharedPreferences.getInstance()).clear();
   }
 }

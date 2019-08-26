@@ -56,4 +56,8 @@ class UIHelper {
   static Widget horizontalSpace(double width) {
     return Container(width: width);
   }
+  /// Show [Snackbar] helper
+  static showSnackBar(GlobalKey<ScaffoldState> key, {Widget child}) {
+    return key.currentState.showSnackBar(SnackBar(content: child));
+  }
 }
