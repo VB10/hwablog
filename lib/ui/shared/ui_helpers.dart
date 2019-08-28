@@ -7,6 +7,7 @@ class UIHelper {
     return "assets/images/$name";
   }
 
+  static const double SPACE500 = 500.0;
   // Vertical spacing constants. Adjust to your liking.
   static const double _VerticalSpaceSmall = 10.0;
   static const double _VerticalSpaceMedium = 20.0;
@@ -55,5 +56,11 @@ class UIHelper {
   /// Returns a vertical space equal to the [width] supplied
   static Widget horizontalSpace(double width) {
     return Container(width: width);
+  }
+
+  static void showSnackbar(GlobalKey<ScaffoldState> key, {Widget child}) {
+    key.currentState.showSnackBar(SnackBar(
+      content: child,
+    ));
   }
 }

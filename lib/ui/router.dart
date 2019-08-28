@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hwablog/core/enum/route.dart';
+import 'package:hwablog/ui/views/authenticate/login_view.dart';
 import 'package:hwablog/ui/views/authenticate/register_view.dart';
 import 'package:hwablog/ui/views/authenticate/splash_view.dart';
-import 'package:hwablog/ui/views/authenticate/tab.dart';
 import 'package:hwablog/ui/views/contents/feed_view.dart';
 
 class Router {
@@ -15,8 +15,8 @@ class Router {
               ),
             ));
     switch (_routeName) {
-      case RouteState.TAB:
-        return MaterialPageRoute(builder: (_) => TabView());
+      case RouteState.LOGIN:
+        return MaterialPageRoute(builder: (_) => LoginView());
       case RouteState.NONE:
         return _nonePageRoute;
       case RouteState.HOME:
