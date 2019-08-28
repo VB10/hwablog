@@ -45,11 +45,14 @@ class BaseHttp {
   }
 
   BaseHttp get({String path}) {
-    if (_queryParamsUrl.isNotEmpty) _baseUrl = baseUrl + _queryParamsUrl;
+    _type = HttpType.GET;
+    _baseUrl = baseUrl + path;
+    if (_queryParamsUrl.isNotEmpty) _baseUrl += _queryParamsUrl;
     return this;
   }
 
   BaseHttp post({String path, dynamic body}) {
+    _type = HttpType.POST;
     if (_queryParamsUrl.isNotEmpty)
       _baseUrl = baseUrl + _queryParamsUrl;
     else
@@ -62,13 +65,17 @@ class BaseHttp {
   }
 
   Future<Response> fetch() async {
+    if (_type == null) {
+      return Future.error("Type must set get & post");
+    }
+    print(_baseUrl);
     switch (_type) {
       case HttpType.GET:
         return await http.get(_baseUrl, headers: _header);
       case HttpType.POST:
         return await http.post(_baseUrl, headers: _header, body: _body);
       default:
-        return await http.post(_baseUrl, headers: _header, body: _body);
+        return Future.error("We have mistakes.");
     }
   }
 }

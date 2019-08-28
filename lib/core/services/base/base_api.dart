@@ -5,7 +5,7 @@ class ApiManager {
   
   static ApiManager _instance;
   ApiManager._privateInit() {
-    baseHttp = new BaseHttp(baseUrl: "asdasd");
+    baseHttp = new BaseHttp(baseUrl: "https://hwaproject-3da21.firebaseio.com/");
   }
 
   static ApiManager instance() {

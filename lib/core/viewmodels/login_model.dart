@@ -3,26 +3,26 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:hwablog/core/enum/route.dart';
 import 'package:hwablog/core/enum/viewstate.dart';
+import 'package:hwablog/core/model/error/error_firebase.dart';
 import 'package:hwablog/core/model/login/login_request.dart';
 import 'package:hwablog/core/model/login/login_response.dart';
-import 'package:hwablog/core/services/api.dart';
+import 'package:hwablog/core/services/shared_prefernces_api.dart';
 import 'package:hwablog/core/viewmodels/base_model.dart';
+import 'package:hwablog/ui/shared/ui_helpers.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../../locator.dart';
 
 class LoginModel extends BaseModel {
-  Api _api = locator<Api>();
-
   TextEditingController userEmail;
   TextEditingController userPassword;
-
+  GlobalKey<ScaffoldState> loginViewKey;
+  final formKey = GlobalKey<FormState>();
   BuildContext _context;
 
   LoginModel() {
-    userEmail = new TextEditingController();
-    userPassword = new TextEditingController();
+    userEmail = new TextEditingController(text: "hwa@hwa.com");
+    userPassword = new TextEditingController(text: "12345h");
+    loginViewKey = GlobalKey<ScaffoldState>(debugLabel: "loginView");
   }
-  final formKey = GlobalKey<FormState>();
 
   void login() {
     if (formKey.currentState.validate()) {
@@ -31,47 +31,39 @@ class LoginModel extends BaseModel {
           email: userEmail.text.trim(),
           password: userPassword.text.trim(),
           returnSecureToken: true.toString());
-      _api.signin_user(_user).then(onSuccess).catchError(onError);
+      api
+          .signin_user(_user)
+          .then(onSuccess)
+          .catchError(onError)
+          .whenComplete(() {
+        setState(ViewState.Idle);
+      });
     } else
       return;
   }
 
-  Future onSuccess(dynamic response) async {
+  void onSuccess(dynamic response) {
     var model = response as LoginResponse;
-    Scaffold.of(_context)
-        .showSnackBar(SnackBar(content: Text("Welcome ${model.email}")));
-    await saveUserState(model);
-
-    Navigator.of(_context)
-        .pushNamed(EnumConverter.stringFromEnum(RouteState.HOME));
-    print(model);
-    setState(ViewState.Idle);
+    UIHelper.showSnackbar(loginViewKey, child: Text("Welcome ${model.email}"));
+    saveUserState(model);
+    Navigator.of(_context).pushNamedAndRemoveUntil(
+        EnumConverter.stringFromEnum(RouteState.HOME),
+        ModalRoute.withName('/'));
   }
 
   void onError(dynamic response) {
-    var model = response as LoginResponse;
-    Navigator.of(_context)
-        .pushNamed(EnumConverter.stringFromEnum(RouteState.REGISTER));
-    setState(ViewState.Idle);
+    var model = response as ErrorFirebaseModel;
+    UIHelper.showSnackbar(loginViewKey,
+        child: Text("Error ${model.error.message}"));
   }
 
-  @override
-  void dispose() {
-    this.removeListener(() => this);
-  }
-
-  Future saveUserState(LoginResponse model) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.reload();
-
-    prefs.setString(UserLocalState.TOKEN_ID.toString(), model.idToken);
-    prefs.setString(
-        UserLocalState.TOKEN_REFRESH.toString(), model.refreshToken);
+  void saveUserState(LoginResponse model) {
+    SharedManager().token = model.idToken;
+    SharedManager().refreshToken = model.refreshToken;
   }
 
   @override
   void setContext(BuildContext context) {
-    // TODO: implement setContext
     _context = context;
   }
 }
