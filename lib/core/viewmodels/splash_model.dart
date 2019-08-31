@@ -24,27 +24,27 @@ class SplashModel extends BaseModel {
 
           // We will add next lesson refresh token. 
       // LoginRefreshTokenRequest refreshTokenRequest = LoginRefreshTokenRequest(
-      //   grant_type: "refresh_token",
-      //   refresh_token: prefs.getString(
+      //   grant_type: "refreshToken",
+      //   refreshToken: prefs.getString(
       //     UserLocalState.TOKEN_REFRESH.toString(),
       //   ),
       // );
       // _api
-      //     .refresh_token(refreshTokenRequest)
+      //     .refreshToken(refreshTokenRequest)
       //     .then(onSuccess)
       //     .catchError(onError);
     }
   }
 
-  void onSuccess(dynamic val) {
-    final model = val as LoginRefreshTokenResponse;
-    SharedManager().token = model.id_token;
-    SharedManager().refreshToken = model.refresh_token;
+  // void onSuccess(dynamic val) {
+  //   final model = val as LoginRefreshTokenResponse;
+  //   SharedManager().token = model.idToken;
+  //   SharedManager().refreshToken = model.refreshToken;
 
-    Navigator.of(_context).pushNamedAndRemoveUntil(
-        EnumConverter.stringFromEnum(RouteState.HOME),
-        ModalRoute.withName('/'));
-  }
+  //   Navigator.of(_context).pushNamedAndRemoveUntil(
+  //       EnumConverter.stringFromEnum(RouteState.HOME),
+  //       ModalRoute.withName('/'));
+  // }
 
   void onError(dynamic val) {
     final model = val as ErrorFirebaseModel;
