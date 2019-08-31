@@ -32,7 +32,7 @@ class LoginModel extends BaseModel {
           password: userPassword.text.trim(),
           returnSecureToken: true.toString());
       api
-          .signin_user(_user)
+          .siginUser(_user)
           .then(onSuccess)
           .catchError(onError)
           .whenComplete(() {

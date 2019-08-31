@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hwablog/core/enum/viewstate.dart';
-import 'package:hwablog/core/model/feed/feed_model.dart';
+import 'package:hwablog/core/model/feed/shop_model.dart';
 import 'package:hwablog/core/viewmodels/feed_model.dart';
 import 'package:hwablog/ui/shared/ui_helpers.dart';
 import 'package:hwablog/ui/views/baseview.dart';
@@ -46,7 +46,7 @@ class _FeedViewState extends State<FeedView> {
   }
 
   Widget get _fabButton => FloatingActionButton(
-        onPressed: () {},
+        onPressed: _feedModel.addShopItem,
         child: Icon(Icons.add),
       );
 

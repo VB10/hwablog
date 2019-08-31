@@ -10,12 +10,12 @@ LoginRefreshTokenRequest _$LoginRefreshTokenRequestFromJson(
     Map<String, dynamic> json) {
   return LoginRefreshTokenRequest(
       grant_type: json['grant_type'] as String,
-      refresh_token: json['refresh_token'] as String);
+      refreshToken: json['refreshToken'] as String);
 }
 
 Map<String, dynamic> _$LoginRefreshTokenRequestToJson(
         LoginRefreshTokenRequest instance) =>
     <String, dynamic>{
       'grant_type': instance.grant_type,
-      'refresh_token': instance.refresh_token
+      'refreshToken': instance.refreshToken
     };
